@@ -1,0 +1,104 @@
+package mx.nic.rdap.renderer.json.writer;
+
+import java.util.List;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+
+import mx.nic.rdap.core.catalog.Status;
+import mx.nic.rdap.core.db.RdapObject;
+import mx.nic.rdap.renderer.util.RendererUtil;
+
+/**
+ * Utilities for json renderer
+ */
+public class JsonUtil {
+
+	public static JsonArray getRdapConformance(List<String> others) {
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		if (others != null) {
+			for (String s : others) {
+				arrayBuilder.add(s);
+			}
+		}
+		return arrayBuilder.build();
+	}
+	
+	public static JsonArray getRdapConformance(String... others) {
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		arrayBuilder.add("rdap_level_0");
+		if (others != null) {
+			for (String s : others) {
+				arrayBuilder.add(s);
+			}
+		}
+		return arrayBuilder.build();
+	}
+
+	public static JsonObjectBuilder fillCommonRdapJsonObject(JsonObjectBuilder builder, RdapObject object) {
+
+
+		String key = "handle";
+		if (RendererUtil.isObjectVisible(object.getHandle()))
+			builder.add(key, object.getHandle());
+
+		key = "remarks";
+		// FIXME
+//		Remark privacyRemark = PrivacyUtil.getObjectRemarkFromPrivacy(isAuthenticated, isOwner, priorityStatus);
+//		if (privacyRemark != null)
+//			object.getRemarks().add(privacyRemark);
+		if (RendererUtil.isObjectVisible(object.getRemarks()))
+			builder.add(key, RemarkJsonWriter.getJsonArray(object.getRemarks()));
+
+		key = "links";
+		if (RendererUtil.isObjectVisible(object.getLinks()))
+			builder.add(key,
+					LinkJsonWriter.getJsonArray(object.getLinks()));
+
+		key = "events";
+		if (RendererUtil.isObjectVisible(object.getEvents()))
+			builder.add(key, EventJsonWriter.getJsonArray(object.getEvents()));
+
+		// Verify is we have to include a Status of "privacy"
+		// (REMOVE,PRIVATE,OBSCURED)
+		// FIXME
+//		Status privacyStatus = PrivacyUtil.getObjectStatusFromPrivacy(isAuthenticated, isOwner, priorityStatus);
+//		if (privacyStatus != null)
+//			object.getStatus().add(privacyStatus);
+
+		key = "status";
+		if (RendererUtil.isObjectVisible(object.getStatus()))
+			builder.add(key, getStatusJsonArray(object.getStatus()));
+
+		key = "port43";
+		if (RendererUtil.isObjectVisible(object.getPort43()))
+			builder.add(key, object.getPort43());
+
+		key = "entities";
+		if (RendererUtil.isObjectVisible(object.getEntities()))
+			builder.add(key, EntityJsonWriter.getJsonArray(object.getEntities()));
+
+		// #FIXME
+		// key = "lang";
+		// if (PrivacyUtil.isObjectVisible(RdapConfiguration.getServerLanguage(), key,
+		// privacySettings.get(key),
+		// isAuthenticated, isOwner))
+		// builder.add("lang", RdapConfiguration.getServerLanguage());
+		return builder;
+	}
+
+
+
+	private static JsonArray getStatusJsonArray(List<Status> statusList) {
+		JsonArrayBuilder builder = Json.createArrayBuilder();
+
+		for (Status s : statusList) {
+			builder.add(s.getValue());
+		}
+
+		return builder.build();
+	}
+
+}
