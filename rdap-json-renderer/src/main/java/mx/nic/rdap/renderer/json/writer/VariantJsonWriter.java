@@ -57,8 +57,12 @@ public class VariantJsonWriter {
 
 		for (VariantName variantName : variantNames) {
 			JsonObjectBuilder builder = Json.createObjectBuilder();
-			builder.add("ldhName", variantName.getLdhName());
-			builder.add("unicodeName", variantName.getUnicodeName());
+			if (RendererUtil.isObjectVisible(variantName.getLdhName())) {
+				builder.add("ldhName", variantName.getLdhName());
+			}
+			if (RendererUtil.isObjectVisible(variantName.getUnicodeName())) {
+				builder.add("unicodeName", variantName.getUnicodeName());
+			}
 			arrayBuilder.add(builder);
 		}
 

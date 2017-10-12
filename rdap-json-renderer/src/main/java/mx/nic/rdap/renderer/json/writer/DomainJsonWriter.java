@@ -17,16 +17,16 @@ public class DomainJsonWriter {
 
 		String key = "ldhName";
 		String value = domain.getFQDN();
-		if (RendererUtil.isObjectVisible(value))
+		if (RendererUtil.isObjectVisible(domain.getLdhName()))
 			builder.add(key, value);
 
-		if (domain.getUnicodeName() != null)
-			if (domain.getLdhName().compareTo(domain.getUnicodeName()) != 0) {
+		if (RendererUtil.isObjectVisible(domain.getUnicodeName())) {
+			if (!domain.getLdhName().equals(domain.getUnicodeName())) {
 				key = "unicodeName";
 				value = domain.getUnicodeFQDN();
-				if (RendererUtil.isObjectVisible(value))
-					builder.add(key, value);
+				builder.add(key, value);
 			}
+		}
 
 		key = "variants";
 		if (RendererUtil.isObjectVisible(domain.getVariants()))
