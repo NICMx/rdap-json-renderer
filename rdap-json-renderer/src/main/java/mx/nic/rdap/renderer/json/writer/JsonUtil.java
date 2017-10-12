@@ -69,12 +69,11 @@ public class JsonUtil {
 		if (RendererUtil.isObjectVisible(object.getEntities()))
 			builder.add(key, EntityJsonWriter.getJsonArray(object.getEntities()));
 
-		// #FIXME
-		// key = "lang";
-		// if (PrivacyUtil.isObjectVisible(RdapConfiguration.getServerLanguage(), key,
-		// privacySettings.get(key),
-		// isAuthenticated, isOwner))
-		// builder.add("lang", RdapConfiguration.getServerLanguage());
+		key = "lang";
+		if (RendererUtil.isObjectVisible(object.getLang())) {
+			builder.add(key, object.getLang());
+		}
+
 		return builder;
 	}
 
