@@ -45,10 +45,6 @@ public class JsonUtil {
 			builder.add(key, object.getHandle());
 
 		key = "remarks";
-		// FIXME
-//		Remark privacyRemark = PrivacyUtil.getObjectRemarkFromPrivacy(isAuthenticated, isOwner, priorityStatus);
-//		if (privacyRemark != null)
-//			object.getRemarks().add(privacyRemark);
 		if (RendererUtil.isObjectVisible(object.getRemarks()))
 			builder.add(key, RemarkJsonWriter.getJsonArray(object.getRemarks()));
 
@@ -60,13 +56,6 @@ public class JsonUtil {
 		key = "events";
 		if (RendererUtil.isObjectVisible(object.getEvents()))
 			builder.add(key, EventJsonWriter.getJsonArray(object.getEvents()));
-
-		// Verify is we have to include a Status of "privacy"
-		// (REMOVE,PRIVATE,OBSCURED)
-		// FIXME
-//		Status privacyStatus = PrivacyUtil.getObjectStatusFromPrivacy(isAuthenticated, isOwner, priorityStatus);
-//		if (privacyStatus != null)
-//			object.getStatus().add(privacyStatus);
 
 		key = "status";
 		if (RendererUtil.isObjectVisible(object.getStatus()))
