@@ -29,17 +29,17 @@ public class IpNetworkJsonWriter {
 		builder.add("objectClassName", "ip network");
 
 		String key = "startAddress";
-		String value = ipNetwork.getStartAddress().getHostAddress();
+		String value = ipNetwork.getStartAddress() != null ? ipNetwork.getStartAddress().getHostAddress() : null;
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
 
 		key = "endAddress";
-		value = ipNetwork.getEndAddress().getHostAddress();
+		value = ipNetwork.getEndAddress() != null ? ipNetwork.getEndAddress().getHostAddress() : null;
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
 
 		key = "ipVersion";
-		value = ipNetwork.getIpVersion().getVersionName();
+		value = ipNetwork.getIpVersion() != null ? ipNetwork.getIpVersion().getVersionName() : null;
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
 
