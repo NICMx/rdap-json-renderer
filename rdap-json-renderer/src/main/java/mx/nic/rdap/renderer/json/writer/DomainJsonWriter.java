@@ -20,13 +20,10 @@ public class DomainJsonWriter {
 		if (RendererUtil.isObjectVisible(domain.getLdhName()))
 			builder.add(key, value);
 
-		if (RendererUtil.isObjectVisible(domain.getUnicodeName())) {
-			if (!domain.getLdhName().equals(domain.getUnicodeName())) {
-				key = "unicodeName";
-				value = domain.getUnicodeFQDN();
-				builder.add(key, value);
-			}
-		}
+		key = "unicodeName";
+		value = domain.getUnicodeFQDN();
+		if (RendererUtil.isObjectVisible(domain.getUnicodeName()))
+			builder.add(key, value);
 
 		key = "variants";
 		if (RendererUtil.isObjectVisible(domain.getVariants()))

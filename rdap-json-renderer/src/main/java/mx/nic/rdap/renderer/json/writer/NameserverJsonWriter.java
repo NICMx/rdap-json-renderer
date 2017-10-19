@@ -35,14 +35,11 @@ public class NameserverJsonWriter {
 		String value = nameserver.getLdhName();
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
-
-		if (nameserver.getUnicodeName() != null)
-			if (nameserver.getLdhName().compareTo(nameserver.getUnicodeName()) != 0) {
-				key = "unicodeName";
-				value = nameserver.getUnicodeName();
-				if (RendererUtil.isObjectVisible(value))
-					builder.add(key, value);
-			}
+		
+		key = "unicodeName";
+		value = nameserver.getUnicodeName();
+		if (RendererUtil.isObjectVisible(value))
+			builder.add(key, value);
 
 		fillIpAddresses(builder, nameserver.getIpAddresses());
 
