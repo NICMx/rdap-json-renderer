@@ -1,5 +1,6 @@
 package mx.nic.rdap.renderer.json.writer;
 
+import java.net.InetAddress;
 import java.util.List;
 
 import javax.json.Json;
@@ -35,7 +36,7 @@ public class NameserverJsonWriter {
 		String value = nameserver.getLdhName();
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
-		
+
 		key = "unicodeName";
 		value = nameserver.getUnicodeName();
 		if (RendererUtil.isObjectVisible(value))
@@ -76,7 +77,10 @@ public class NameserverJsonWriter {
 	private static JsonArray getIpAddressJsonArray(List<IpAddress> addresses) {
 		JsonArrayBuilder builder = Json.createArrayBuilder();
 		for (IpAddress address : addresses) {
-			builder.add(address.getAddress().getHostAddress());
+			InetAddress inetA = address.getAddress();
+			if (RendererUtil.isObjectVisible(inetA)) {
+				builder.add(inetA.getHostAddress());
+			}
 		}
 		return builder.build();
 	}

@@ -84,7 +84,9 @@ public class RemarkJsonWriter {
 		JsonArrayBuilder builder = Json.createArrayBuilder();
 
 		for (RemarkDescription description : descriptions) {
-			builder.add(description.getDescription());
+			if (RendererUtil.isObjectVisible(description) && RendererUtil.isObjectVisible(description.getDescription())) {
+				builder.add(description.getDescription());
+			}
 		}
 
 		return builder.build();
