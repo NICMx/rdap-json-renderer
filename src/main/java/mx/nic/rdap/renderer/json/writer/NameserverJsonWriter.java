@@ -33,12 +33,12 @@ public class NameserverJsonWriter {
 		JsonUtil.fillCommonRdapJsonObject(builder, nameserver);
 
 		String key = "ldhName";
-		String value = nameserver.getLdhName();
+		String value = nameserver.getFqdnLdhName();
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
 
 		key = "unicodeName";
-		value = nameserver.getUnicodeName();
+		value = nameserver.getFqdnUnicodeName();
 		if (RendererUtil.isObjectVisible(value))
 			builder.add(key, value);
 
