@@ -135,10 +135,12 @@ public class VCardJsonWriter {
 		JsonArrayBuilder streetBuilder = Json.createArrayBuilder();
 		key = "street1";
 		value = postalInfo.getStreet1();
+		String singleStreet = null;
 		int streetCounter = 0;
 		if (RendererUtil.isObjectVisible(value)) {
 			streetCounter++;
 			streetBuilder.add(value);
+			singleStreet = value;
 		} else {
 			streetBuilder.add("");
 		}
@@ -148,6 +150,7 @@ public class VCardJsonWriter {
 		if (RendererUtil.isObjectVisible(value)) {
 			streetCounter++;
 			streetBuilder.add(value);
+			singleStreet = value;
 		} else {
 			streetBuilder.add("");
 		}
@@ -157,12 +160,15 @@ public class VCardJsonWriter {
 		if (RendererUtil.isObjectVisible(value)) {
 			streetCounter++;
 			streetBuilder.add(value);
+			singleStreet = value;
 		} else {
 			streetBuilder.add("");
 		}
 
-		if (streetCounter > 0) {
+		if (streetCounter > 1) {
 			postalInfoArray.add(streetBuilder.build());
+		} else if (streetCounter == 1) {
+			postalInfoArray.add(singleStreet);
 		} else {
 			postalInfoArray.add("");
 		}
