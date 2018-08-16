@@ -123,12 +123,6 @@ public class JsonRenderer implements Renderer {
 		JsonObjectBuilder object = Json.createObjectBuilder();
 		object.add("rdapConformance", JsonUtil.getRdapConformance(response.getRdapConformance()));
 
-		// FIXME: add TOS
-		// if (UserNotices.getTos() != null && !UserNotices.getTos().isEmpty()) {
-		// if (result.getNotices() == null)
-		// result.setNotices(new ArrayList<Remark>());
-		// result.getNotices().addAll(UserNotices.getTos());
-		// }
 		if (response.getNotices() != null && !response.getNotices().isEmpty()) {
 			object.add("notices", noticesToJsonArray(response.getNotices()));
 		}
