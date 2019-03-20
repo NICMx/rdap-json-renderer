@@ -1,9 +1,12 @@
 package mx.nic.rdap.renderer.json.writer;
 
+import java.util.List;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 import mx.nic.rdap.core.db.VCard;
 import mx.nic.rdap.core.db.VCardPostalInfo;
@@ -30,6 +33,15 @@ public class VCardJsonWriter {
 		if (RendererUtil.isObjectVisible(value))
 			attributesArray.add(getUrl(value));
 
+		List<String> contactUri = vCard.getContactUri();
+		if (contactUri.size() == 1) {
+			attributesArray.add(getContactUri(contactUri.get(0)));
+		} else {
+			for (int i = 0; i < contactUri.size(); i++) {
+				attributesArray.add(getContactUri(contactUri.get(i), i+1));
+			}
+		}
+		
 		value = vCard.getEmail();
 		if (RendererUtil.isObjectVisible(value))
 			attributesArray.add(getEmail(value));
@@ -99,6 +111,15 @@ public class VCardJsonWriter {
 		return getVCardAttributeArray("title", "text", title);
 	}
 
+	private static JsonArray getContactUri(String contactUri) {
+		return getVCardAttributeArray("contact-uri", Json.createObjectBuilder().build(), "uri", contactUri);
+	}
+
+	private static JsonArray getContactUri(String contactUri, int pref) {
+		return getVCardAttributeArray("contact-uri", Json.createObjectBuilder().add("pref", pref).build(), "uri",
+				contactUri);
+	}
+
 	private static JsonArray getVCardAttributeArray(String attributeName, String type, String value) {
 		return getVCardAttributeArray(attributeName, Json.createObjectBuilder().build(), type, value);
 	}
@@ -117,16 +138,24 @@ public class VCardJsonWriter {
 		JsonArrayBuilder attributeArray = Json.createArrayBuilder();
 		attributeArray.add("adr");
 
+		/* Add parameters to the postal Info */
 		String key = "type";
 		String value = postalInfo.getType();
+
+		JsonObjectBuilder paramAttr = Json.createObjectBuilder();
 		if (RendererUtil.isObjectVisible(value))
-			attributeArray.add(Json.createObjectBuilder().add(key, value).build());
-		else
-			attributeArray.add(Json.createObjectBuilder().build());
+			paramAttr.add(key, value);
+
+		key = "cc";
+		value = postalInfo.getCountryCode();
+		if (RendererUtil.isObjectVisible(value))
+			paramAttr.add(key, value);
+
+		attributeArray.add(paramAttr.build());
 
 		attributeArray.add("text");
 
-		// postal info
+		/* postal info */
 		JsonArrayBuilder postalInfoArray = Json.createArrayBuilder();
 
 		postalInfoArray.add("");
