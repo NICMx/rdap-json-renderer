@@ -34,11 +34,13 @@ public class VCardJsonWriter {
 			attributesArray.add(getUrl(value));
 
 		List<String> contactUri = vCard.getContactUri();
-		if (contactUri.size() == 1) {
-			attributesArray.add(getContactUri(contactUri.get(0)));
-		} else {
-			for (int i = 0; i < contactUri.size(); i++) {
-				attributesArray.add(getContactUri(contactUri.get(i), i+1));
+		if (RendererUtil.isObjectVisible(contactUri)) {
+			if (contactUri.size() == 1) {
+				attributesArray.add(getContactUri(contactUri.get(0)));
+			} else {
+				for (int i = 0; i < contactUri.size(); i++) {
+					attributesArray.add(getContactUri(contactUri.get(i), i + 1));
+				}
 			}
 		}
 		
